@@ -1,0 +1,54 @@
+{% extends "mail/base.html" %}
+{% block body %}
+<table cellpadding="0" cellspacing="0" border="0" style="margin:0; padding:0; width:100%; line-height: 100% !important;">
+  <tr>
+    <td valign="top">
+      <!-- edge wrapper -->
+      <table cellpadding="0" cellspacing="0" border="0" align="center" width="600" style="background: #efefef;">
+        <tr>
+          <td valign="top">
+            <!-- content wrapper -->
+            <table cellpadding="0" cellspacing="0" border="0" align="center" width="560" style="background: #ffffff;">
+              <tr>
+                <td valign="top" style="vertical-align: top;">
+
+<table cellpadding="5" cellspacing="5" border="0" align="center">
+  <tr>
+    <td valign="top" style="vertical-align: top;">
+      <a href="{{config.HOSTNAME}}/confirm/{{user.username}}/{{user.change_configuration.confirmation_code}}">
+      <img src="https://i.imgur.com/7hOEN6n.png" alt="Your alt text" title="Your title text" width="100" height="100" style="width: 100px; height: 100px;" />
+      </a>
+    </td>
+  </tr>
+</table>
+<table cellpadding="8" cellspacing="8" border="0" align="center">
+  <tr>
+    <td valign="top" style="vertical-align: top;">
+        <span style=""> คลิกรูปด้านบน หรือ ลิ้งด้านล่างเพื่อยืนยันอีเมล์</span><br>
+        <a href="{{config.HOSTNAME}}/confirm/{{user.username}}/{{user.change_configuration.confirmation_code}}">{{config.HOSTNAME}}/confirm/{{user.username}}/{{user.change_configuration.confirmation_code}}</a>
+
+    </td>
+  </tr>
+</table>
+<table cellpadding="0" cellspacing="0" border="0" align="center">
+  <tr height="30">
+    <td valign="top" style="vertical-align: top; background: #efefef;" width="600" >
+    </td>
+  </tr>
+</table>
+
+<!-- //////////// -->
+                </td>
+              </tr>
+            </table>
+            <!-- / content wrapper -->
+          </td>
+        </tr>
+      </table>
+      <!-- / edge wrapper -->
+    </td>
+  </tr>
+</table>
+<!-- / page wrapper -->
+
+{% endblock %}

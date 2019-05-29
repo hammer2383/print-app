@@ -1,0 +1,178 @@
+{% extends 'base_white.html' %}
+{% block title %}  home  {% endblock %}
+{% include "navbar.html" %}
+
+{% block content%}
+
+<!-- store front -->
+<div class="row align-items-center justify-content-md-auto">
+
+    <div class="col col-lg-2">
+      <div class="brand_rc2">
+          <img src="{{store.store_imgsrc('raw')}}" alt="bootstrap 4 login page">
+      </div>
+    </div>
+    <div class="col-md-auto">
+      <h1>{{store.storename}}</h1>
+      <small style="color: red;">*ร้านจะปริ้นงาน ก็ต่อเมื่อได้รับเงินแล้วเท่านั้น</small><br>
+      <small style="color: red;">*ขนาดไฟล์สูงสุดคือ 40mb</small>
+    </div>
+    <div class="col col-lg-1">
+      <a class="btn btn-primary btn-sm" href="{{url_for('store_app.store_front', storecode = store.storecode)}}" style="border-radius: 14px;" role="button">ราคา</a>
+    </div>
+    <div class="col-auto">
+      {% if rel == "UNVERI" %}
+      <a class="request-verify btn btn-danger btn-sm" href="{{url_for('user_app.re_verification', storecode = store.storecode)}}" style="border-radius: 14px;" role="button"><span id="request-label">ยังไม่ได้รับการยืนยัน</span></a>
+      {% elif rel == "PENDING" %}
+      <button type="button" class="btn btn-secondary btn-sm" style="border-radius: 14px;"> <i id="icon-label" class="far fa-circle" aria-hidden="true" style="margin-right: 3px;"></i><span id="request-label">ส่งคำขอแล้ว</span></button>
+      {% elif rel == "VERID" %}
+      <button type="button" class="btn btn-success btn-sm" style="border-radius: 14px;"> <i  id = "icon-label" class="fas fa-check-circle" aria-hidden="true" style="margin-right: 3px;"></i> คุณได้รับการเชื่อถือจากร้าน</button>
+      {% endif %}
+    </div>
+    <div class="col-1">
+        {% if store_status == 1 %}
+          <button type="button" class="btn btn-success btn-sm btn-block" style="border-radius: 14px;">เปิด</button>
+        {% elif store_status == 0 %}
+          <button type="button" class="btn btn-warning btn-sm btn-block" style="border-radius: 14px;">ไม่อยู่</button>
+        {% elif store_status == 2 %}
+          <button type="button" class="btn btn-danger btn-sm btn-block" style="border-radius: 14px;">ร้านปิด</button>
+        {% endif %}
+    </div>
+    {% if store_status == 2 %}
+    <div class="col-auto">
+        <small style="color: red;">ไฟล์อาจถูกลบหากคุณโพสในเวลาที่ร้านปิด</small>
+    </div>
+    {% endif %}
+</div>
+<!-- store front -->
+
+<!-- upload form -->
+<div class="card p-3" style="box-shadow: 0 10px 10px rgba(0,0,0,.05);">
+
+      {% from "_formhelpers.html" import render_field %}
+      <form role="form" enctype="multipart/form-data" action="{{url_for('core.upload')}}" onsubmit="loadingbtn()" method="POST">
+        {{ form.hidden_tag() }}
+        {{ render_field(form.files, class='form-control') }}
+        <small class="form-text text-muted">รับแค่ไฟล์ 'jpg','jpeg','png','gif','pdf','docx' เท่านั้น</small>
+        <br style = "line-height: 0.1;">
+        <div class="row">
+              <div class="col">
+              {{ form2.size.label }}
+              {{ form2.size(class='form-control') }}
+                </div>
+                <div class="col">
+              {{ form2.color.label }}
+              {{ form2.color(class='form-control') }}
+              </div>
+        </div>
+        <!-- row -->
+        <br>
+        {{ form2.descp(class='form-control', placeholder="คำอธิบายเพิ่มเติม เช่น เข้าเล่ม เคลือบ ปริ้นแค่หน้าที่ต้องการ พิมพ์หน้าหลัง  แก้ไฟล์ ใส่ไข่ดาว ขนาดอื่น ฯลฯ")}}
+        <br>
+        <input type="hidden" name="to_store" value="{{ store.storecode }}"/>
+        <button id="content" type="submit" class="btn btn-primary btn-lg btn-block"><i class="fas fa-arrow-alt-circle-down"></i> Upload</button>
+        <button  id="loading" class="btn btn-primary btn-lg btn-block" style="display: none;"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Uploading...
+        </button>
+        <small class="form-text text-muted">ค่าบริการ 1 บาทต่อ 1 ไฟล์ จึงแนะนำให้รวมไฟล์ให้เป็นไฟล์เดียว <a  target="_blank" rel="noopener noreferrer" href="https://www.ilovepdf.com/merge_pdf">เว็บรวมไฟล์ PDF</a></small>
+      </form>
+</div>
+      <!-- upload form -->
+
+  <br>
+  {% if not notification %}
+  <a id="magicbuttonid" href="{{url_for('core.reload')}}" role="button" class="btn btn-primary btn-block btn-lg disabled" style="padding: 3% 0;"><span id="text002">there's nothing to do now</span> <i class="fas fa-mouse-pointer fa-lg" style="margin-left: 5px;"></i></a>
+  {% else %}
+  <a id="magicbuttonid" href="{{url_for('core.reload')}}" role="button" class="btn btn-primary btn-block btn-lg" style="padding: 3% 0;">  <span id="text002">{{notification.get_message()}}</span> <i class="fas fa-mouse-pointer fa-lg" style="margin-left: 5px;"></i></a>
+  {% endif %}
+  <br>
+
+<!-- uploading tap nav -->
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#Pending" role="tab" aria-controls="Pending" aria-selected="true">รายการ  <span class="badge badge-light"> {{pending_total}}</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="printing-tab" data-toggle="tab" href="#Printed" role="tabpanel" aria-controls="Printed" aria-selected="false">ปริ้นแล้ว  <span class="badge badge-light"> {{printed_total}}</span></a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+          <!-- pending tab -->
+          <div class="tab-pane fade show active" id="Pending" role="tabpanel" aria-labelledby="Pending-tab">
+          {% from "home/_user_file_card.html" import render_file_user_card %}
+          {% for pefile in pending_files %}
+            {{render_file_user_card(pefile,rel)}}
+          {% endfor %}
+
+          </div>
+
+          <div class="tab-pane fade" id="Printed" role="tabpanel" aria-labelledby="Printed-tab">
+          {% for pedfile in printed_files %}
+            {{render_file_user_card(pedfile,rel)}}
+          {% endfor %}
+          </div>
+
+</div>
+<!-- uploading tap -->
+<br style="line-height: 300px">
+
+{% endblock %}
+
+{% block end_body_js %}
+<audio id="myAudio" muted="muted" source src="{{url_for('static', filename='assets/sound/slow-spring-board.ogg')}}" type="audio/ogg">
+</audio>
+
+<script>
+
+function loadingbtn() {
+  $("#loading").show();
+  $("#content").hide();
+}
+
+
+function ping(s) { if (s == true) {
+              var x = document.getElementById("myAudio");
+              x.play();
+              myAudio.muted = false;
+            }
+        }
+
+function magicbutton(n) {
+            $('#text002').text(n);
+            if (n)
+              document.getElementById("magicbuttonid").className = "btn btn-primary btn-block btn-lg";
+        }
+
+$(function() {
+    setInterval(function() {
+        $.ajax('{{ url_for('core.notification') }}').done(
+            function(notifications) {
+                    if (notifications[0].name == 'uncheck_notification')
+                        magicbutton(notifications[0].notice);
+                        ping(notifications[0].isping);
+
+            }
+        );
+    }, 2000);
+});
+
+
+$(document).ready(function(){
+
+  $('.request-verify').mouseover(function() {
+
+    $(this).find('#request-label').text('ส่งคำขอยืนยัน');
+
+    $(this).attr("class", "btn btn-primary btn-sm");
+
+  }).mouseout(function() {
+
+    $(this).find('#request-label').text('ยังไม่ได้รับการยืนยัน');
+
+    $(this).attr("class", "btn btn-danger btn-sm");
+
+  });
+});
+
+</script>
+{% endblock %}

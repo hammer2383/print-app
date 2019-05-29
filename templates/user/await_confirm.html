@@ -1,0 +1,16 @@
+{% extends "base_wt_bgimg2.html" %}
+{% block title %}username{% endblock %}
+
+
+{% block content %}
+<img src="{{url_for('static', filename = 'assets/default_image/Screenshot164.jpg')}}" class="d-block w-100" alt="...">
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Email confirm</h1>
+    <p class="lead">กรุณายืนยันอีเมลของคุณ อีเมล์อาจอยู่ในกล่องแสปมที่ {{email}}</p>
+  </div>
+</div>
+
+
+{% endblock %}

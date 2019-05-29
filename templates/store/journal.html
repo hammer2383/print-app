@@ -1,0 +1,124 @@
+{% extends "base_white.html" %}
+{% block title %}Journal{% endblock %}
+{% include "store_navbar.html" %}
+
+{% block content %}
+
+
+
+
+
+
+<br>
+<!-- not detail -->
+
+
+{% if not detail %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Journal</li>
+  </ol>
+</nav>
+
+<!-- dayrec table-->
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">วันที่</th>
+      <th scope="col">จำนวน</th>
+      <th scope="col">ยอด</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for rec in dayrec %}
+    <tr>
+      <th scope="row">{{loop.index}}</th>
+      <td><a href="{{url_for('store_app.detail-rec', objid = rec.id )}}">{{rec.readable_date}}</a></td>
+      <td>{{rec.number_time}}</td>
+      <td>{{rec.sale}}</td>
+    </tr>
+      {% endfor %}
+  </tbody>
+</table>
+<!-- dayrec table-->
+<!-- if not details -->
+{% else %}
+
+<!-- if detail -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{url_for('store_app.journal')}}">Journal</a></li>
+    <li class="breadcrumb-item active" aria-current="page">File</li>
+  </ol>
+</nav>
+
+<!-- detail-rec endpoint -->
+<!-- file records table -->
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">วันที่</th>
+      <th scope="col">ผู้ส่ง</th>
+      <th scope="col">ขนาด</th>
+      <th scope="col">ราคา</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for file_rec in file_recs %}
+    <tr>
+      <th scope="row">{{loop.index}}</th>
+      <td>{{file_rec.date_time}}</td>
+      <td><a href="{{url_for('user_app.profile_by_u', username = file_rec.from_user.username)}}">{{file_rec.from_user.username}}</a></td>
+      <td>{{file_rec.size}}</td>
+      <td>{{file_rec.prize}}</td>
+      {% if not file_rec.paid %}
+      <td><span style="color: red;">No payment</span></td>
+      {%endif%}
+    </tr>
+    {% endfor %}
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>รวม</td>
+      <td>{{sum}}</td>
+    </tr>
+  </tbody>
+</table>
+<!-- file records table -->
+{% endif %}
+<!-- detail-rec endpoint -->
+
+
+<div class="row justify-content-end">
+  <div class="col-4">
+    <div class="float-right">
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm">ล้างไฟล์ และ จดบันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">ยืนยันการล้างไฟล์ และจดบันทึก</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>หากกดตกลงไฟล์ที่ในหน้าจะถูกนำออกและทำการจดบันทึก กรุณาแน่ใจก่อนว่าไม่มีออร์เดอร์จากลูกค้า ค้างอยู่</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a href="{{url_for('store_app.done')}}" class="btn btn-primary">ตกลง</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

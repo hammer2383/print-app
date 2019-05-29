@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Registration{% endblock %}
+
+{% block content %}
+
+  <div class="row justify-content-center">
+
+      <div class="card-wrapper">
+          <div class="brand_rd">
+            <img src="static/assets/logo/Pigeon_logo_wt_bg.png" alt="bootstrap 4 login page">
+          </div>
+          <div class="card w-70 p-3">
+              <div class="col-md">
+
+                    <h3>Registration</h3>
+                    <br />
+
+                    {% from "_formhelpers.html" import render_field %}
+                    <form method="POST" action="{{ url_for('user_app.register')}}" role="form">
+
+                    {{ form.hidden_tag() }}
+
+                    {{ render_field(form.email, class='form-control') }}
+                    <small id="emailHelp" class="form-text text-muted">อีเมลนั้นจะใช้ในการ login นะ.</small>
+                    <br>
+
+                    {{ render_field(form.username, class='form-control') }}
+                    <small id="emailHelp" class="form-text text-muted">username จะใช้ในการแสดงตัวเฉยๆ เปลี่ยนทีหลังได้</small>
+                    <br>
+
+                    {{ render_field(form.password, class='form-control') }}
+                    {{ render_field(form.confirm, class='form-control') }}
+
+                    <div class="form-group">
+    									<div class="custom-checkbox custom-control">
+    										<input type="checkbox" name="agree" id="agree" class="custom-control-input" required="">
+    										<label for="agree" class="custom-control-label">I agree to the <a href="#">Terms and Conditions</a></label>
+    										<div class="invalid-feedback">
+    											You must agree with our Terms and Conditions
+    										</div>
+    									</div>
+    								</div>
+
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
+                    <br>
+                    <!-- <div class="brand_rc">
+                      <a href="{{ url_for('google.login')}}">
+                      <img src="static/assets/button/btn_google_signin_lg.png" alt="">
+                      </a>
+                    </div> -->
+
+                    <div class="mt-4 text-center">
+    									Already have an account? <a href="{{ url_for('user_app.login')}}">Login</a>
+    								</div>
+
+                    </form>
+                </div>
+
+          </div>
+
+      </div>
+
+</div>
+{% endblock %}

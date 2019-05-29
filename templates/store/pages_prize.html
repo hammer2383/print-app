@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Page's prize{% endblock %}
+{% include "navbar.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="card-wrapper">
+        <div class="brand_rd">
+          <img src="{{store.store_imgsrc('lg')}}" alt="bootstrap 4 login page">
+        </div>
+        <div class="card w-70 p-3">
+            <div class="col-md">
+              {% if error %}
+              <div class="alert alert-danger" role="alert">{{error}}</div>
+              {% endif %}
+
+                  <h4>Page's prize</h4>
+                  <br />
+                  <div class="row justify-content-center">
+                    <div class="col-6">
+                      <p class="text-center">BW</p>
+                    </div>
+                    <div class="col-6">
+                      <p class="text-center">Color</p>
+                    </div>
+
+                  </div>
+
+                  <form method="POST" action="{{url_for('store_app.page_prize')}}" role="form">
+
+                    {%for subform in form if subform.widget.input_type != 'hidden' %}
+                    <div class="input-group">
+                      <div class="input-group-prepend" style="margin-bottom: 5px;">
+                        <span class="input-group-text">{{subform.label}}</span>
+                      </div>
+                      {{ subform.csrf_token() }}
+                      {{ subform.bw_prize(class="form-control") }}
+                      {{ subform.clr_prize(class="form-control") }}
+                    </div>
+                    {% endfor %}
+
+
+                  <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+
+                  </form>
+              </div>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

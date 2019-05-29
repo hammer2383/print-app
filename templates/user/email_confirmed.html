@@ -1,0 +1,15 @@
+{% extends "base_wt_bgimg2.html" %}
+{% block title %}username{% endblock %}
+
+
+{% block content %}
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Email confirmed</h1>
+    <p class="lead">คุณได้ทำการยืนยันอีเมล์เรียบร้อย.</p>
+    <a class="btn btn-primary btn-lg" href="{{url_for('user_app.login')}}" role="button">Login</a>
+  </div>
+</div>
+
+{% endblock %}

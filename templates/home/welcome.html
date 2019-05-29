@@ -1,0 +1,24 @@
+{% extends "base_wt_bgimg2.html" %}
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="vertical-center">
+
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+
+              <p class="thaisa"> ลิ้งสู่เว็บไซต์ได้ถูกส่งไปที่กล่องอีเมล์ของคุณ({{user_email}}) หากไม่เจอกรุณาเช็คที่กล่อง spam(สแปม) หรือ junk(ขยะ)</p><br>
+              <p>link to the website has been send to your email ({{user_email}}) inbox if it not found please check in the spam or junk box</p>
+              <div class="mt-4 text-center">
+                เผลอใส่ Email ผิด ? <a href="{{url_for('user_app.intro', storecode=storecode)}}">Click here!</a>
+              </div>
+
+
+        </div>
+      </div>
+    </div>
+</div>
+
+
+{% endblock %}

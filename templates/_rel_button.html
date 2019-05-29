@@ -1,0 +1,48 @@
+{% macro rel_button(rel, username) %}
+
+      {% if rel == "PENDING" %}
+      <a href="{{url_for('store_app.grant', username = username)}}" role="button" class="btn btn-primary btn-block" style="border-radius: 18px;"><i  id = "icon-label" class="fas fa-check-circle" aria-hidden="true" style="margin-right: 3px;"></i>Accept</a>
+      <a href="{{url_for('store_app.revoke', username = username)}}" role="button" class="btn btn-danger btn-block" style="border-radius: 18px;"><i  id = "icon-label" class="fas fa-times-circle" aria-hidden="true" style="margin-right: 3px;"></i>Deny</a>
+      {% endif %}
+
+      <!-- revoke verification -->
+      {% if rel =="VERID" %}
+      <a href="{{url_for('store_app.revoke', username = username)}}" role="button" class="verified btn btn-success btn-block" style="border-radius: 18px;"><i  id = "icon-label" class="fas fa-check-circle" aria-hidden="true" style="margin-right: 3px;"></i> <span id="verified-label"> Verified</span></a>
+      {% endif %}
+
+      <!-- Grant verification -->
+      {% if rel == "UNVERI" %}
+      <a href="{{url_for('store_app.grant', username = username)}}" role="button" class="btn btn-primary btn-block" style="border-radius: 18px;"> Grant verification </a>
+      {% endif %}
+
+{% endmacro %}
+
+{% macro rel_js() %}
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    $('.verified').mouseover(function() {
+
+      $(this).find('#verified-label').text('Revoke Verification');
+
+      $(this).attr("class", "btn btn-danger btn-block");
+
+      $(this).find('#icon-label').attr("class", "fas fa-times-circle");
+
+
+    }).mouseout(function() {
+
+      $(this).find('#verified-label').text('Verified');
+
+      $(this).attr("class", "btn btn-success btn-block");
+
+      $(this).find('#icon-label').attr("class", "fas fa-check-circle");
+
+
+    });
+  });
+
+</script>
+
+{% endmacro %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Edit store{% endblock %}
+{% include "store_navbar.html" %}
+
+{% block content %}
+
+  <div class="row justify-content-center">
+
+      <div class="card-wrapper">
+          <div class="brand_rd">
+            <img src="{{store.store_imgsrc('lg')}}" alt="bootstrap 4 login page">
+          </div>
+          <div class="card w-70 p-3">
+              <div class="col-md">
+                {% if error %}
+                <div class="alert alert-danger" role="alert">{{error}}</div>
+                {% endif %}
+
+                    <h3>Edit store</h3>
+                    <br />
+
+                    {% from "_formhelpers.html" import render_field %}
+                    <form method="POST" action="{{url_for('store_app.edit')}}" role="form" enctype="multipart/form-data">
+
+                    {{ form.hidden_tag() }}
+
+                    {{ render_field(form.username, class='form-control') }}
+
+                    {{ render_field(form.storename, class='form-control') }}
+
+                    {{ render_field(form.email, class='form-control') }}
+
+                    {{ render_field(form.store_image, class='form-control') }}
+                    <br>
+                    <img src="{{store.owner_imgsrc('raw')}}"  style="max-width: 100%;"alt="">
+
+                    {{ render_field(form.owner_image, class='form-control') }}
+
+
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Edit</button>
+
+                    </form>
+
+                    <a href="{{url_for('store_app.page_prize')}}">
+                        <button class="btn btn-light btn-md btn-block">
+                            <div class="float-left">
+                              <img width="30px" alt="Edit" src="{{url_for('static', filename='assets/logo/edit_page.png')}}">
+                            </div>
+                        Edit page
+                        </button>
+                    </a>
+                    <br>
+                    <h5>Link</h5>
+                    <input type="text"  style="font-size: 15;" value="{{config.HOSTNAME}}/intro/{{store.storecode}}" id="myInput" size="35" readonly>
+                    <!-- <p id="myInput" style="border: 1px solid black;font-size: 15;padding: 3px;" >{{config.HOSTNAME}}/register?storecode={{store.storecode}}</p> -->
+                    <button class="btn btn-primary btn-sm" onclick="myFunction()">Copy</button>
+
+
+
+                </div>
+
+          </div>
+
+      </div>
+
+</div>
+{% endblock %}
+
+{% block end_body_js %}
+<script type="text/javascript">
+  function myFunction() {
+  var copyText = document.getElementById("myInput");
+  copyText.select();
+  document.execCommand("copy");
+  alert("Copied the text: " + copyText.value);
+}
+</script>
+{% endblock %}

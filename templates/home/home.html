@@ -1,0 +1,58 @@
+{% extends 'base_white.html' %}
+{% block title %}  home  {% endblock %}
+{% include "navbar.html" %}
+
+{% block content%}
+<div class="row justify-content-center">
+  <div class="col-auto">
+    <br style="line-height:2;">
+    <p class="thaisa">  ป้อน store code ที่คุณได้รับใน Email ของคุณลงไปเลย <br> หรือใช้ค้นร้านจาก storecode ได้เลย</p>
+
+      <div class="card p-2 border-light" style="box-shadow: 0 5px 5px rgba(0,0,0,.05);">
+            {% if error %}
+              <div class="alert alert-danger" role="alert">{{error}}</div>
+            {% endif %}
+
+                  <form method="POST" action="{{ url_for('core.allstore')}}" role="form">
+                        <div class="form-row align-items-center">
+
+                            <div class="col-auto">
+                              {{form.hidden_tag()}}
+                              {{form.storecode(class='form-control',placeholder='storecode')}}
+                            </div>
+                            <div class="col-auto my-1">
+                                <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                            </div>
+                        </div>
+                  </form>
+
+
+            </div>
+      </div>
+</div>
+<hr>
+
+
+<div class="row card-column">
+<!-- render store card that user had met -->
+{% from "store/_store_card.html" import render_store_card %}
+{% for store in met_stores %}
+<div class="col-3">
+  {{render_store_card(store.what_store, store.is_verified())}}
+<hr>
+</div>
+{% endfor %}
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

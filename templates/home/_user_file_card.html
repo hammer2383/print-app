@@ -1,0 +1,103 @@
+{% macro render_file_user_card(pefile, rel) %}
+
+<!-- button should have an ID that unique for different files -->
+<div class="card p-3">
+  <div class="row align-items-center justify-content-md-auto">
+
+    <div class="col-md-auto">
+          <img src="{{url_for('static', filename='assets/logo/File-512.png')}}"height="50" alt="bootstrap 4 login page">
+    </div>
+
+    <div class="col-md-auto">
+      <a href="{{pefile.file_src()}}"><span class="text-short">{{pefile.file_tn}}</span></a>
+        A{{pefile.size}}
+        {%if pefile.clr == 1 %}
+        สี
+        {% else %}
+        ขาวดำ
+        {% endif %}
+    </div>
+    <div class="col-md-3">
+      <p style="font-size: 12px">{{pefile.descp}}</p>
+    </div>
+
+    <!-- prize -->
+    <div class="col-md-4">
+
+      {% if pefile.prize is none %}
+      <button id="" type="button" class="btn btn-primary btn-sm" style="border-radius: 14px;" disabled>
+          ชำระเงิน
+      </button>
+      {% elif pefile.approve == 1 or pefile.approve == 2 %}
+      <button id="" type="button" class="btn btn-primary btn-sm" style="border-radius: 14px;" data-toggle="modal" data-target="#{{pefile.file_tag}}">
+      <i class="far fa-check-circle"></i>  ชำระแล้ว
+      </button>
+      <!-- Modal button -->
+      {% elif pefile.prize and pefile.approve == 0 %}
+        {% if rel == "VERID" %}
+        <a href="{{url_for('core.pay_approve_end', file = pefile.file)}}" role = "button" class = "btn btn-primary btn-sm" style="border-radius: 14px;"><i class="fas fa-star"></i> จ่ายที่ร้าน</a>
+        {% endif %}
+
+      <button id="" type="button" class="btn btn-primary btn-sm" style="border-radius: 14px;" data-toggle="modal" data-target="#{{pefile.file_tag}}">
+          ชำระเงิน
+      </button>
+      <!-- Modal button -->
+
+      {% endif %}
+      <button type="button" class="btn btn-light" style="border-radius: 16px;" >{{pefile.prize}} Baht</button>
+
+    </div>
+
+    <!-- status -->
+    <div class="col my-1">
+
+      <!-- pending > waitforpayment > waitforconfirmation > printing > done  -->
+      {% if pefile.status == 1 and pefile.approve == 0 and pefile.prize is none %}
+      <button type="button" class="btn btn-light btn-block" style="border-radius: 18px;">กำลังรอ</button>
+      {% elif pefile.status == 1 and pefile.prize and pefile.approve == 0%}
+      <button type="button" class="btn btn-warning btn-block" style="border-radius: 18px;"><span style="color: white;"><i class="fas fa-dollar-sign"></i></span>  รอชำระเงิน</button>
+      {% elif pefile.approve == 1 and pefile.status == 1 %}
+      <button type="button" class="btn btn-light btn-block" style="border-radius: 18px; border: 1px solid black;">กำลังรอปริ้น</button>
+      {% elif pefile.approve == 1 or pefile.approve == 2 and pefile.status == 0 %}
+      <button type="button" class="btn flash-button btn-block" style="border-radius: 18px;">กำลังปริ้น</button>
+      {% elif pefile.approve == 1 and pefile.status == -1 %}
+      <button type="button" class="btn btn-light btn-block" style="border-radius: 18px; border: 1px solid black;">ปริ้นเสร็จแล้ว</button>
+      {% endif %}
+
+      <!-- if file is currently printing disabled cancle button -->
+      {% if pefile.status != -1 and pefile.approve != 1 %}
+      <a href="{{url_for('core.cancle', file = pefile.file)}}" role = "button" class="btn btn-danger btn-block" style="border-radius: 18px;">ยกเลิก <i class="fas fa-times-circle"></i></a>
+      {% else %}
+      <button type="button" class="btn btn-danger btn-block" style="border-radius: 18px;" disabled> ยกเลิก <i class="fas fa-times-circle"></i></button>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="{{pefile.file_tag}}" tabindex="-1" role="dialog" aria-labelledby="{{pefile.file}}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="{{pefile.file}}">Payment</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <p>ใช้ Prompt pay เพื่อสแกน QR code</p>
+          <img src="{{pefile.to_store.owner_imgsrc('raw')}}"  style="max-width: 100%;"alt="">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <a href="{{url_for('core.pay_approve', file = pefile.file)}}" role = "button" class = "btn btn-primary pull-right">ยืนยันว่าจ่ายแล้ว</a>
+        </div>
+
+      </div>
+    </div>
+</div>
+<!-- Modal -->
+
+{% endmacro %}

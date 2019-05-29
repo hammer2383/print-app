@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %} Home  {% endblock %}
+{% include "navbar.html" %}
+{% block content %}
+
+<!-- store frong -->
+<div class="row align-items-center justify-content-md-auto">
+    <div class="col col-lg-2">
+      <div class="brand_rc2">
+          <img src="{{store.store_imgsrc('raw')}}" alt="bootstrap 4 login page">
+      </div>
+    </div>
+    <div class="col-md-auto">
+      <h1>{{store.storename}}</h1>
+      <small style="color: red;">*กรุณาปริ้นก็ต่อเมื่อได้รับเงินหรือ user ได้รับการยืนยันเท่านั้น</small>
+    </div>
+    <div class="col col-lg-1">
+      <a class="btn btn-primary btn-sm" href="{{url_for('store_app.store_front', storecode = store.storecode)}}" role="button">ราคา</a>
+    </div>
+    <div class="col col-lg-2">
+        <a class="btn btn-dark my-2 my-sm-0" style="border-radius: 18px;" role="button" href="{{url_for('store_app.request_list')}}"><i class="fas fa-users" style="margin-right: 5px;"></i><span class="badge badge-light"> {{request_count}}</span></a>
+    </div>
+    <div class="btn-group" role="group" aria-label="Basic example">
+      {%if status == 1 %}
+        <a href="#" class="btn btn-success disabled" >เปิดร้าน</a>
+      {% else %}
+      <a href="{{url_for('store_app.open_close', status = '1')}}" class="btn btn-success" >เปิดร้าน</a>
+      {% endif %}
+
+      {%if status == 0 %}
+      <a href="#" class="btn btn-secondary disabled" >ไม่อยู่</a>
+      {% else %}
+      <a href="{{url_for('store_app.open_close', status = '0')}}" class="btn btn-secondary">ไม่อยู่</a>
+      {% endif %}
+
+      {%if status == 2 %}
+      <a href="#" class="btn btn-danger disabled" >ปิดร้าน</a>
+      {% else %}
+      <a href="{{url_for('store_app.open_close', status = '2')}}" class="btn btn-danger">ปิดร้าน</a>
+      {% endif %}
+    </div>
+</div>
+<!-- store front -->
+<br>
+{% if not notification %}
+<a id="magicbuttonid" href="{{url_for('core.reload_st')}}" role="button" class="btn btn-primary btn-block btn-lg disabled" style="padding: 3% 0;">there nothing to do now</a>
+{% else %}
+<a id="magicbuttonid" href="{{url_for('core.reload_st')}}" role="button" class="btn btn-primary btn-block btn-lg" style="padding: 3% 0;">{{notification.get_message()}}</a>
+{% endif %}
+<br>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="take-tab" data-toggle="tab" href="#Taking" role="tab" aria-controls="Taking" aria-selected="true">รับไฟล์ <span class="badge badge-light"> {{pend_count}}</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="printing-tab" data-toggle="tab" href="#Paid" role="tab" aria-controls="Paid" aria-selected="false">ชำระเงินแล้ว <span class="badge badge-light"> {{paid_count}}</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="printing-tab" data-toggle="tab" href="#Printing" role="tab" aria-controls="Printing" aria-selected="false">กำลังปริ้น <span class="badge badge-light"> {{printing_count}}</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="printed-tab" data-toggle="tab" href="#Printed" role="tab" aria-controls="Printed" aria-selected="false">เสร็จ <span class="badge badge-light"> {{printed_count}}</span></a>
+  </li>
+</ul>
+
+<!-- tab content -->
+{% from "store/_file_card.html" import render_file_card %}
+<div class="tab-content" id="myTabContent">
+        <!-- Taking tab -->
+        <div class="tab-pane fade show active" id="Taking" role="tabpanel" aria-labelledby="Taking-tab">
+
+          {% for pefile in pending_files %}
+                {{ render_file_card(pefile,form, pefile.is_from_verified())}}
+          {% endfor %}
+        </div>
+      <!-- Taking tab -->
+
+      <!-- paid tab -->
+      <div class="tab-pane fade" id="Paid" role="tabpanel" aria-labelledby="Paid-tab">
+        {% for pdfile in paid_files %}
+              {{ render_file_card(pdfile, form, pdfile.is_from_verified())}}
+        {% endfor %}
+      </div>
+      <!-- paid tab -->
+
+      <!-- Printing tab -->
+      <div class="tab-pane fade" id="Printing" role="tabpanel" aria-labelledby="Printing-tab">
+        {% for pingfile in printing_files %}
+              {{ render_file_card(pingfile,form, pingfile.is_from_verified())}}
+        {% endfor %}
+      </div>
+      <!-- Printing tab -->
+
+      <!-- Printed tab -->
+      <div class="tab-pane fade" id="Printed" role="tabpanel" aria-labelledby="Printed-tab">
+        {% for pfile in printed_files %}
+              {{ render_file_card(pfile,form, pfile.is_from_verified())}}
+        {% endfor %}
+      </div>
+      <!-- Printed tab -->
+
+</div>
+<!-- tab content -->
+
+{% endblock %}
+
+
+
+{% block end_body_js %}
+<audio id="myAudio" muted="muted" source src="{{url_for('static', filename='assets/sound/slow-spring-board.ogg')}}" type="audio/ogg">
+</audio>
+
+
+<script>
+
+function ping(s) { if (s == true) {
+              var x = document.getElementById("myAudio");
+              x.play();
+              myAudio.muted = false;
+            }
+        }
+
+function magicbutton(n) {
+            $('#magicbuttonid').text(n);
+            if (n)
+              document.getElementById("magicbuttonid").className = "btn btn-primary btn-block btn-lg";
+        }
+
+$(function() {
+    setInterval(function() {
+        $.ajax('{{ url_for('core.notification_store') }}').done(
+            function(notifications) {
+                    if (notifications[0].name == 'uncheck_notification')
+                        magicbutton(notifications[0].notice);
+                        ping(notifications[0].isping);
+
+            }
+        );
+    }, 2000);
+});
+
+</script>
+{% endblock %}

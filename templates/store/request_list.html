@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}  request list  {% endblock %}
+{% include "navbar.html" %}
+
+{% block content%}
+<br>
+
+
+{% for rel in rels %}
+<div class="row">
+  <div class="col-md-1 offset-md-2">
+    <img src="{{rel.what_user.user_imgsrc('lg')}}" width="50" heigh="50" alt="user">
+  </div>
+  <div class="col-md-2">
+    <a href="{{url_for('user_app.profile_by_u', username = rel.what_user.username)}}" role="button" class="btn btn-light btn-block" style="margin-top: 8px;border-radius: 18px;">{{rel.what_user.username}}</a>
+  </div>
+  <div class="col-auto">
+    <a href="{{url_for('store_app.grant', username = rel.what_user.username)}}" role="button" class="btn btn-primary" style="border-radius: 18px;margin-top: 8px;"><i class="fas fa-check-circle" aria-hidden="true" style="margin-right: 3px;"></i>Accept</a>
+      <a href="{{url_for('store_app.revoke', username = rel.what_user.username)}}" role="button" class="btn btn-danger" style="border-radius: 18px;margin-top: 8px;"><i class="fas fa-times-circle" aria-hidden="true" style="margin-right: 3px;"></i>Deny</a>
+  </div>
+
+</div>
+
+<hr>
+{% endfor %}
+
+
+
+{% endblock %}

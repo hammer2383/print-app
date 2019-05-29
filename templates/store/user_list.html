@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block title %}  request list  {% endblock %}
+{% include "navbar.html" %}
+
+{% block content%}
+<br>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="veried-tab" data-toggle="tab" href="#veried" role="tab" aria-controls="verified" aria-selected="true"><i class="fas fa-check-circle" style="margin-right: 5px;"></i>Verified user  <span class="badge badge-light"> {{rel_count}}</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="unveri-tab" data-toggle="tab" href="#unveri" role="tabpanel" aria-controls="unveri" aria-selected="false"><i class="fas fa-times-circle"  style="margin-right: 5px;"></i>Unverified user  <span class="badge badge-light"> {{nvrel_count}}</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="pending-tab" data-toggle="tab" href="#pending" role="tabpanel" aria-controls="pending" aria-selected="false"><i class="fas fa-times-circle"  style="margin-right: 5px;"></i>Request user  <span class="badge badge-light"> {{penrel_count}}</span></a>
+  </li>
+</ul>
+
+<!-- Verified user -->
+<div class="tab-content" id="myTabContent">
+
+        <div class="tab-pane fade show active" id="veried" role="tabpanel" aria-labelledby="veried-tab">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">รูป</th>
+                <th scope="col">ชื่อ</th>
+                <th scope="col">วันที่</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for rel in rels %}
+              <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>
+                  <a href="{{url_for('user_app.profile_by_u', username = rel.what_user.username)}}">
+                  <img src="{{rel.what_user.user_imgsrc('lg')}}" width="50" heigh="50" alt="user">
+                  </a>
+                </td>
+
+                <td><a href="{{url_for('user_app.profile_by_u', username = rel.what_user.username)}}" role="button" class="btn btn-light btn-block" style="border-radius: 18px;">{{rel.what_user.username}}</a></td>
+                <td>{{rel.time_human()}}</td>
+              </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Unverified user tap -->
+        <div class="tab-pane fade" id="unveri" role="tabpanel" aria-labelledby="unveri-tab">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">รูป</th>
+                <th scope="col">ชื่อ</th>
+                <th scope="col">วันที่</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for rel in nvrels %}
+              <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>
+                  <a href="{{url_for('user_app.profile_by_u', username = rel.what_user.username)}}">
+                  <img src="{{rel.what_user.user_imgsrc('lg')}}" width="50" heigh="50" alt="user">
+                  </a>
+                </td>
+
+                <td><a href="{{url_for('user_app.profile_by_u', username = rel.what_user.username)}}" role="button" class="btn btn-light btn-block" style="border-radius: 18px;">{{rel.what_user.username}}</a></td>
+                <td>{{rel.time_human()}}</td>
+              </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- pending user tap -->
+        <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">รูป</th>
+                <th scope="col">ชื่อ</th>
+                <th scope="col">วันที่</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for rel in penrels %}
+              <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>
+                  <a href="{{url_for('user_app.profile_by_u', username = rel.what_user.username)}}">
+                  <img src="{{rel.what_user.user_imgsrc('lg')}}" width="50" heigh="50" alt="user">
+                  </a>
+                </td>
+
+                <td><a href="{{url_for('user_app.profile_by_u', username = rel.what_user.username)}}" role="button" class="btn btn-light btn-block" style="border-radius: 18px;">{{rel.what_user.username}}</a></td>
+                <td>{{rel.time_human()}}</td>
+              </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+</div>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}login{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="vertical-center">
+
+
+        <div class="col-md-4">
+          <div class="card-wrapper">
+            <div class="card w-400 p-3 border-light" style="box-shadow: 0 10px 10px rgba(0,0,0,.05);">
+              <h3>Login</h3>
+              <br>             
+
+              {% from "_formhelpers.html" import render_field %}
+              <form action="{{ url_for('console_app.login')}}" method="POST" role="form">
+                {{form.hidden_tag()}}
+
+                {{render_field(form.username, class='form-control')}}
+                {{render_field(form.password, class='form-control')}}
+
+                <div class="form-group">
+                  <div class="custom-checkbox custom-control">
+                    <input type="checkbox" name="true"  id="true" class="custom-control-input" >
+                    <label for="true" class="custom-control-label">remember me</label>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-secondary btn-lg btn-block">Login</button>
+
+              </form>
+
+            </div>
+
+          </div>
+        </div>
+
+
+
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

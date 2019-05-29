@@ -1,0 +1,11 @@
+{% extends "mail/base.txt" %}
+{% block body %}
+
+<p>If you see this message don't worry.</p>
+<p>หากคุณได้รับอีเมล์นี้ไม่ต้องตกใจ สามารถกดที่ลิ้งเพื่อเข้าสู่เว็บไซต์ได้เลย</p>
+<p>
+<a href="{{config.HOSTNAME}}/register?storecode={{storecode}}">{{config.HOSTNAME}}/register?storecode={{storecode}}</a>
+{{storecode}}
+</p>
+
+{% endblock %}

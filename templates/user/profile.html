@@ -1,0 +1,51 @@
+{% extends "base_wt_bgimg2.html" %}
+{% from "_rel_button.html" import rel_button , rel_js %}
+{% block title %}username{% endblock %}
+{% include "navbar.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="vertical-center">
+    <div class="card-wrapper">
+        <div class="card w-70 p-3">
+
+            <img src="{{user.user_imgsrc('raw')}}" class="card-img-top" alt="bootstrap 4 login page">
+          <br>
+            <div class="col-md">
+                  <h4 class="text-center">{{username}} <a href="{{fb}}" target="_blank" rel="noopener noreferrer" > <i class="fab fa-facebook-square"></i></a></h4>
+            </div>
+
+          <div class="card-body text-center">
+            <p>  <button class="btn btn-secondary btn-sm" style="border-radius: 18px;" >Email</button> {{email}}</p>
+            <p><button class="btn btn-secondary btn-sm" style="border-radius: 18px;" >Tel</button> {{tel}}</p>
+            <p><button class="btn btn-secondary btn-sm" style="border-radius: 18px;" >Name</button> {{fn}}  {{ln}}</p>
+          </div>
+          <div class="row justify-content-center">
+
+            <!-- check if user is profile owner -->
+            {% if session.email == email and session.who == 'user' %}
+            <a href="{{url_for('user_app.edit')}}" class="btn btn-secondary btn-block" style="border-radius: 18px;" role="button" ">Edit profile</a>
+            <small id="emailHelp" class="form-text text-muted">เพื่อให้ร้านค้ายืนยันตัวคุณได้ง่ายขึ้น กรุณากรอกข้อมูลให้ครบ</small>
+            {% elif session.who == 'store' %}
+            {{rel_button(rel, user.username)}}
+            {% endif %}
+
+          </div>
+
+        </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+
+{% endblock %}
+
+{% block end_body_js %}
+
+{{ rel_js() }}
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% macro render_store_card(store, rel) %}
+
+<!-- this is use in home/home.html which rendered by allstore() -->
+
+  <div class="card p-2 border-light" style="box-shadow: 0 10px 10px rgba(0,0,0,.05);">
+    <div class="card-header">
+      <h5>{{store.storename}} {% if rel == "VERID" %}<button type="button" style="font-size: 10px;border-radius: 18px;" class="btn btn-success btn-sm"><i class="fas fa-check-circle fa-sm"></i> verified </button> {% endif %}
+        {% if store.status == 1 %}
+          <button type="button" class="btn btn-success btn-sm" style="font-size: 10px;border-radius: 14px;">เปิด</button>
+        {% elif store.status == 0 %}
+          <button type="button" class="btn btn-warning btn-sm" style="font-size: 10px;border-radius: 14px;">ไม่อยู่</button>
+        {% elif store.status == 2 %}
+          <button type="button" class="btn btn-danger btn-sm" style="font-size: 10px;border-radius: 14px;">ร้านปิด</button>
+        {% endif %}
+      </h5>
+    </div>
+    <img class="card-img-top" src="{{store.store_imgsrc('raw')}}" alt="Card image cap">
+
+    <div class="card-body">
+    </div>
+
+    <div class="card-footer">
+      <a href="{{url_for('core.store_end', storecode = store.storecode)}}">
+      <button type="button" class="btn btn-primary btn-block">Enter store</button>
+      </a>
+      <br>
+      <!-- page size and prize button -->
+      <a href="{{url_for('store_app.store_front', storecode = store.storecode )}}">
+            <button class="btn btn-light btn-sm btn-block">
+                <div class="float-left">
+                  <img width="30px" alt="Edit" src="{{url_for('static', filename='assets/logo/search_icon.png')}}">
+                </div>
+            View store
+            </button>
+      </a>
+    </div>
+
+
+  </div>
+
+
+
+
+
+{% endmacro %}

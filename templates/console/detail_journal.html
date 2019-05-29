@@ -1,0 +1,42 @@
+{% extends "base_white.html" %}
+{% block title %} Home  {% endblock %}
+
+
+{% block content %}
+
+<!-- detail-rec endpoint -->
+<!-- file records table -->
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">วันที่</th>
+      <th scope="col">ผู้ส่ง</th>
+      <th scope="col">ขนาด</th>
+      <th scope="col">ราคา</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for file_rec in file_recs %}
+    <tr>
+      <th scope="row">{{loop.index}}</th>
+      <td>{{file_rec.date_time}}</td>
+      <td><a href="{{url_for('user_app.profile_by_u', username = file_rec.from_user.username)}}">{{file_rec.from_user.username}}</a></td>
+      <td>{{file_rec.size}}</td>
+      <td>{{file_rec.prize}}</td>
+      {% if not file_rec.paid %}
+      <td><span style="color: red;">No payment</span></td>
+      {%endif%}
+    </tr>
+    {% endfor %}
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>รวม</td>
+      <td>{{sum}}</td>
+    </tr>
+  </tbody>
+</table>
+
+{% endblock %}

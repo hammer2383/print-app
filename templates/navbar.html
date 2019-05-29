@@ -1,0 +1,5 @@
+{% if session.who == 'store' %}
+{% include "store_navbar.html" %}
+{% else %}
+{% include "user_navbar.html" %}
+{% endif %}

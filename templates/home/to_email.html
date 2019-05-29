@@ -1,0 +1,36 @@
+{% extends "base_wt_bgimg2.html" %}
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+
+
+<div class="row justify-content-center">
+  <div class="vertical-center">
+    <div class="col-auto">
+      <p class="thaisa">พิมพ์อีเมล์ของคุณลงไปในช่อง แล้วเราจะส่งลิ้งเว็บไซต์ <br> ไปที่กล่องข้อความ(หากไม่เจอ ข้อความอาจอยู่ในกล่อง Spam หรือ Junk)</p>
+        <div class="card p-2 border-light" style="box-shadow: 0 10px 10px rgba(0,0,0,.05);">
+
+
+                    <form method="POST" action="{{ url_for('user_app.intro', storecode = storecode)}}" role="form">
+                          <div class="form-row align-items-center">
+
+                              {{ form.hidden_tag() }}
+                              <div class="col-auto">
+                                {{ form.email.label(class="form-group") }}
+                              </div>
+                              <div class="col-auto">
+                                {{ form.email(class='form-control') }}
+                              </div>
+                              <div class="col-auto my-1">
+                                  <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                              </div>
+
+                          </div>
+                    </form>
+
+              </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

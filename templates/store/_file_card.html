@@ -1,0 +1,131 @@
+{% macro render_file_card(file,form, rel) %}
+
+<!-- card p-3-->
+  <div class="card p-3">
+
+    <!-- row alc jcma -->
+      <div class="row align-items-center justify-content-md-auto">
+
+                <div class="col-md-auto">
+                    <img src="{{url_for('static', filename='assets/logo/File-512.png')}}"height="50" alt="bootstrap 4 login page">
+                </div>
+                <div class="col-md-auto">
+                  <a href="{{file.file_src()}}" download><span class="text-short">{{file.file}}</span></a>
+                    A{{file.size}}
+                    {%if file.clr == 1 %}
+                    สี
+                    {% else %}
+                    ขาวดำ
+                    {% endif %}<br>
+                    <a href="{{url_for('user_app.profile_by_u', username = file.from_user.username)}}">{{file.from_user.username}}</a>
+                    {% if rel == "VERID" %}<button type="button" style="font-size: 10px;border-radius: 18px;" class="btn btn-success btn-sm"><i class="fas fa-check-circle fa-sm"></i> verified </button> {% endif %}
+                </div>
+                <div class="col-md-4">
+                  <p style="font-size: 12px">{{file.descp}}</p>
+                </div>
+
+                <div class="col-md-3">
+                  <!-- if prize is set and file is pending -->
+                  <!-- this is to just not display None but NA instead -->
+                  {% if file.prize and file.approve == 0%}
+                  <!-- modal button-->
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{file.file_tag}}">
+                      ราคา
+                  </button>
+                  <!-- modal button-->
+                  <button type="button" class="btn btn-light">{{file.prize}} Baht</button>
+
+                  <!-- this will displayed prize as NA -->
+                  <!-- to reduce user cofusion -->
+                  {% elif not file.prize and file.approve == 0 %}
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{file.file_tag}}">
+                      ราคา
+                  </button>
+                  <button type="button" class="btn btn-light">NA</button>
+                  {% elif file.approve == 1 %}
+                  <button type="button" class="btn btn-primary" disabled>ราคา</button>
+                  <button type="button" class="btn btn-light">{{file.prize}} Baht</button>
+                  {% elif file.approve == 2 %}
+                  <button type="button" style="font-size: 10px;border-radius: 18px;" class="btn btn-success btn-sm"><i class="fas fa-check-circle fa-sm"></i> จ่ายที่ร้าน </button>
+                  <button type="button" class="btn btn-primary" disabled>ราคา</button>
+                  <button type="button" class="btn btn-light">{{file.prize}} Baht</button>
+                  {% endif %}
+                </div>
+
+                <!-- status button -->
+                <div class="col my-1">
+                      {% if file.approve == 0 and not file.prize %}
+                      <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#{{file.file_tag}}"><i class="fas fa-comment-dollar"></i> กำหนดราคา</button>
+                      {% elif file.prize and file.approve == 0 %}
+                      <button type="button" class="btn btn-danger btn-block">รอการยืนยัน</button>
+                      {% else %}
+                      <button type="button" class="btn btn-success btn-block">ยืนยันแล้ว</button>
+                      {% endif %}
+
+                      <!-- pending button -->
+                      {% if file.status == 1 %}
+                      <a href="{{url_for('store_app.change_st', file = file.file, status = 0)}}" class="btn btn-primary btn-block" role="button" >
+                          กำลังปริ้น
+                          <i class="fas fa-chevron-right" style="margin-left: 8px;"></i>
+                      </a>
+                      <!-- printing buttonL -->
+                      {% elif file.status == 0 %}
+                        <a role="button" href="{{url_for('store_app.change_st', file = file.file, status = -1)}}"  class="btn btn-success btn-block">
+                          ปริ้นแล้ว
+                          <i class="fas fa-chevron-right" style="margin-left: 8px;"></i>
+                        </a>
+                        <a role="button" href="{{url_for('store_app.change_st', file = file.file, status = 1)}}"  class="btn btn-light btn-block">
+                          <i class="fas fa-chevron-left" style="margin-right: 8px;"></i>
+                          กลับ
+                        </a>
+
+                        <!-- printed button -->
+                      {% elif file.status == -1 %}
+                        <a role="button" href="{{url_for('store_app.change_st', file = file.file, status = 0)}}"  class="btn btn-light btn-block">
+                          <i class="fas fa-chevron-left" style="margin-right: 8px;"></i>
+                          กลับไปกำลังปริ้น
+                        </a>
+                        <button type="button" class="btn btn-danger btn-block">เสร็จ</button>
+                      {% endif %}
+                </div>
+
+                <!-- status button -->
+
+    </div>
+    <!-- row alc jcma -->
+
+    </div>
+    <!-- card p-3-->
+    <!-- Modal -->
+    <div class="modal fade" id="{{file.file_tag}}" tabindex="-1" role="dialog" aria-labelledby="hahaLabel" aria-hidden="true">
+      <form method="POST" action="{{url_for('store_app.prizing')}}" role='form'>
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="hahaLabel">กำหนดราคา</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+                {{ form.hidden_tag() }}
+
+                {{ form.prize(class='form-control') }}
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary pull-right" name = "file" value="{{file.file}}">submit</button>
+          </div>
+        </div>
+      </div>
+      </form>
+    </div>
+    <!-- Modal -->
+
+
+
+
+
+{% endmacro %}

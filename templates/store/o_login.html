@@ -1,0 +1,77 @@
+{% extends "base_wt_bgimg.html" %}
+
+{% block title %}Owner login{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="vertical-center">
+
+
+        <div class="col-md-4">
+          <div class="card-wrapper">
+            <div class="card w-400 p-3 border-light" style="box-shadow: 0 10px 10px rgba(0,0,0,.05);">
+              <h3>Store Login</h3>
+              <br>
+              {% if error %}
+              <div class="alert alert-danger" role="alert">{{error}}</div>
+              {% endif %}
+
+              {% from "_formhelpers.html" import render_field %}
+              <form action="{{ url_for('store_app.login')}}" method="POST" role="form">
+                {{form.hidden_tag()}}
+
+                {{render_field(form.username, class='form-control')}}
+                {{render_field(form.password, class='form-control')}}
+
+                <div class="form-group">
+                  <div class="custom-checkbox custom-control">
+                    <input type="checkbox" name="true"  id="true" class="custom-control-input" >
+                    <label for="true" class="custom-control-label">remember me</label>
+                  </div>
+                </div>
+                <p><small style="font-size: 10px;">By clicking Login. you agree to our,<a href="{{url_for('user_app.term')}}">Terms, </a>
+                  <a href="{{url_for('user_app.privacy_po')}}">Data Policy</a>.</small></p>
+
+                <button type="submit" class="btn btn-secondary btn-lg btn-block">Login</button>
+
+              </form>
+              <div class="mt-4 text-center">
+                Don't have account ? <a href="{{ url_for('store_app.register')}}">Register</a>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-md-4 offset-md-5">
+          <img src="static/assets/art_work/bird_getting_file.png" style="width: 50%; height:50%;" alt="aaaa">
+          <br style = “line-height:1;”><br>
+          <p class="thaisa">การทำงานของเว็บไซต์เรานั้นก็จะง่ายๆ <br>
+            ขั้นแรกนั้น เราจะรับไฟล์ที่ลูกค้าอัพโหลดมาผ่านเว็บไซต์เรา
+          </p>
+          <br style = “line-height:4;”><br>
+          <img src="static/assets/art_work/bird_fly.png" style="width: 50%; height:50%;" alt="">
+          <br style = “line-height:1;”><br>
+          <p class="thaisa">เมื่อลูกค้าอัพโหลดสำเร็จ จากนั้น ไฟล์ก็จะถูกส่งให้ร้านของคุณ เพื่อที่จะนำไปปริ้น</p>
+          <br style = “line-height:4;”><br>
+          <img src="static/assets/art_work/bird_land.png" style="width: 50%; height:50%;" alt="">
+          <br style = “line-height:1;”><br>
+          <p class="thaisa">เมื่อร้านคุณปริ้นงานของคุณเสร็จและแจ้งลูกค้าว่าเสร็จแล้ว ลูกค้าก็ไปรับงานของคุณได้เลย</p>
+        </div>
+
+
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base_wt_bgimg2.html" %}
+{% block title %}username{% endblock %}
+{% include "navbar.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="vertical-center">
+    <div class="card-wrapper">
+        <div class="card w-70 p-3">
+          <!-- profile image -->
+          <div class="brand-rd-noshadow large">
+            <img src="{{url_for('static', filename='assets/default_image/profile_test.jpg')}}" alt="bootstrap 4 login page">
+          </div>
+          <!-- profile image -->
+          {% if error %}
+          <div class="alert alert-danger" role="alert">{{ error }}</div>
+          {% endif %}
+
+          {% if message %}
+          <div class="alert alert-success" role="alert">{{ message }}</div>
+          {% endif %}
+
+          <form action="{{url_for('user_app.edit')}}" method="POST" role="form" enctype="multipart/form-data">
+
+
+
+
+          <div class="card-body text-center">
+            {{form.hidden_tag()}}
+            <button class="btn btn-secondary btn-sm" style="border-radius: 18px;" for="fblink">Facebook profile link</button>
+            {{form.username(class="form-control")}}
+            <div class="form-group row">
+            <button class="btn btn-secondary btn-sm" style="border-radius: 18px;" for="fblink">Facebook profile link</button> {{form.facebook_link(class="form-control", placeholder="https://www.facebook.com/example.profile")}}
+            </div>
+            <div class="form-group row">
+              <button class="btn btn-secondary btn-sm" style="border-radius: 18px;" for="fblink">Facebook profile link</button>{{form.first_name(class="form-control")}}
+            </div>
+            <div class="form-group row">
+              <button class="btn btn-secondary btn-sm" style="border-radius: 18px;" for="fblink">Facebook profile link</button>{{form.first_name(class="form-control")}}
+            </div>
+            <div class="form-group row">
+            <button class="btn btn-secondary btn-sm" style="border-radius: 18px;" for="fblink">Facebook profile link</button>{{form.tel(class="form-control")}}
+            </div>
+
+
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-md">
+            <button type="submit" class="btn btn-secondary btn-block" style="border-radius: 18px;">Edit</button>
+            </div>
+            </div>
+            </form>
+
+          </div>
+
+
+        </div>
+
+    </div>
+  </div>
+
+
+
+
+{% endblock %}

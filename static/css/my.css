@@ -1,0 +1,191 @@
+div.brand_rd {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin: 40px auto;
+  box-shadow: 0 2px 6px rgba(0,0,0.05);
+  position: relative;
+  z-index: 1;
+}
+
+.brand_rd img {
+  width: 100%;
+}
+
+div.brand-rc-noshadow {
+  width: 370px;
+  overflow: hidden;
+  margin: 40px auto;
+  position: relative;
+  z-index: 1;
+}
+.brand-rc-noshadow img {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+}
+
+div.large {
+  width: 300px;
+}
+
+div.brand_rc {
+  width: 340px;
+  position: relative;
+
+}
+.brand_rc img {
+  width: 100%;
+}
+
+div.brand_rc2 {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  margin: 0 auto;
+  margin: 20px auto;
+
+  position: relative;
+  z-index: 1;
+}
+
+.brand_rc2 img {
+  width: 100%;
+}
+
+
+
+div.card-wrapper {
+	width: 400px;
+}
+
+.card.fat {
+  padding: 18px;
+}
+.card-wrapper .card {
+  border-color: transparent;
+	box-shadow: 0 10px 10px rgba(0,0,0,.05);
+}
+
+/* div.bg-light-grey {
+	background-color: #f7f9fb;
+	font-size: 14px;
+} */
+
+body.main_front {
+  background-image: url("ab_pigeon_ink_br.png");
+  background-repeat: no-repeat;
+  background-position: left top;
+  height: 100%;
+}
+.main_front .vertical-center {
+
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}
+
+body.welcome {
+  background-image: url("ab_pigeon_ink_wt_branch2.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.welcome .vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}
+
+p.thaisa {
+  font-family: 'Sarabun', sans-serif;
+  font-size: 15px;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+}
+
+row.card-column {
+   display: flex;
+   flex-wrap: wrap;
+}
+
+.row.card-column > div[class*='col-'] {
+  display: flex;
+}
+
+span.text-short {
+  display: block;
+  width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+span.text-notsolong {
+  display: block;
+  width: 40em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+p.prize {
+  border: 2px solid red;
+  border-radius: 8px;
+}
+
+
+.flash-button{
+	background:green;
+	padding:5px 10px;
+	color:#fff;
+	border:none;
+	border-radius:18px;
+
+	animation-name: flash;
+	animation-duration: 1s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+
+	//Firefox 1+
+	-webkit-animation-name: flash;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+
+	//Safari 3-4
+	-moz-animation-name: flash;
+	-moz-animation-duration: 1s;
+	-moz-animation-timing-function: linear;
+	-moz-animation-iteration-count: infinite;
+}
+
+@keyframes flash {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1.0; }
+}
+
+//Firefox 1+
+@-webkit-keyframes flash {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1.0; }
+}
+
+//Safari 3-4
+@-moz-keyframes flash {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1.0; }
+}

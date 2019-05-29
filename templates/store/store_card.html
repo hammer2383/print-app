@@ -1,0 +1,71 @@
+{% extends "base_white.html" %}
+{% block title %} Home  {% endblock %}
+
+{% include "navbar.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="card p-2 border-light" style="box-shadow: 0 10px 10px rgba(0,0,0,.05);width: 40rem;">
+    <div class="card-header">
+      <h3>{{store.storename}} </h3>
+    </div>
+    <img class="card-img-top" src="{{store.store_imgsrc('raw')}}" alt="Card image cap">
+    <br>
+    <h4>Page's prize</h4>
+            <br />
+      <div class="row justify-content-center">
+
+
+              <div class="col-4">
+                <h5 class="text-center">Size</h5>
+                <hr />
+                {% for page in Pages %}
+                <div class="row justify-content-center">
+                  {{page}}
+                </div>
+                  <hr />
+                {% endfor %}
+              </div>
+
+              <div class="col-4">
+                <h5 class="text-center" style="font-family: 'Sarabun', sans-serif;">ขาวดำ</h5>
+                <hr />
+                {% for bwp in bw %}
+                <div class="row justify-content-center">
+                  {{bwp}}
+                </div>
+                <hr />
+                {% endfor %}
+              </div>
+              <div class="col-4">
+                <h5 class="text-center" style="font-family: 'Sarabun', sans-serif;">สี</h5>
+                <hr />
+                {% for clrp in clr %}
+                <div class="row justify-content-center">
+                  {{clrp}}
+                </div>
+                <hr />
+                {% endfor %}
+              </div>
+
+      </div>
+          <br>
+
+{% if session.who == 'user' %}
+    <a href="{{url_for('store_app.add_store', storecode = store.storecode)}}">
+    <button type="button" class="btn btn-primary btn-block">Enter store</button>
+    </a>
+{% elif session.who == 'store' %}
+    <a href="{{url_for('store_app.home_store')}}">
+    <button type="button" class="btn btn-primary btn-block">Enter store</button>
+    </a>
+{% endif %}
+
+  </div>
+
+</div>
+
+
+
+{% endblock %}

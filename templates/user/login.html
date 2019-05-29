@@ -1,0 +1,87 @@
+{% extends "base_wt_bgimg.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="vertical-center">
+
+
+        <div class="col-md-4">
+          <div class="card-wrapper">
+            <div class="card w-400 p-3 border-light" style="box-shadow: 0 10px 10px rgba(0,0,0,.05);">
+              <h3>User Login</h3>
+              <br>
+              {% if error %}
+              <div class="alert alert-danger" role="alert">{{error}}</div>
+              {% endif %}
+
+              {% from "_formhelpers.html" import render_field %}
+              <form action="{{ url_for('user_app.login')}}" method="POST" role="form">
+                {{form.hidden_tag()}}
+
+                {{render_field(form.email, class='form-control')}}
+                {{render_field(form.password, class='form-control')}}
+
+                <div class="form-group">
+                  <div class="custom-checkbox custom-control">
+                    <input type="checkbox" name="true"  id="true" class="custom-control-input" >
+                    <label for="true" class="custom-control-label">remember me</label>
+                  </div>
+                </div>
+                <p><small style="font-size: 10px;">By clicking Login. you agreed to our,<a href="{{url_for('user_app.term')}}">Terms, </a>
+                  <a href="{{url_for('user_app.privacy_po')}}">Data Policy</a>.</small></p>
+
+                <button type="submit" class="btn btn-secondary btn-lg btn-block">Login</button>
+              </form>
+<!--
+              <br> -->
+              <!-- <a href="{{url_for('google.login')}}">
+              <button class="btn btn-light btn-lg btn-block">
+
+                  <div class="float-left">
+                    <img width="30px" alt="Google &quot;G&quot; Logo" src="static/assets/logo/google_icon.png">
+                  </div>
+              Login with Google
+              </button>
+              </a> -->
+              <div class="mt-4 text-center">
+                Don't have account ? <a href="{{ url_for('user_app.register')}}">Register</a>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-md-4 offset-md-5">
+          <img src="static/assets/art_work/bird_getting_file.png" style="width: 50%; height:50%;" alt="">
+          <br style = “line-height:1;”><br>
+          <p class="thaisa">การทำงานของเว็บไซต์เรานั้นก็จะง่ายๆ <br>
+            ขั้นแรกนั้น เราจะรับไฟล์ที่คุณอัพโหลดมาผ่านเว็บไซต์เรา
+          </p>
+          <br style = “line-height:4;”><br>
+          <img src="static/assets/art_work/bird_fly.png" style="width: 50%; height:50%;" alt="">
+          <br style = “line-height:1;”><br>
+          <p class="thaisa">เมื่อคุณอัพโหลดสำเร็จ จากนั้น ไฟล์ก็จะถูกส่งให้ทางร้าน เพื่อนำไปปริ้น</p>
+          <br style = “line-height:4;”><br>
+          <img src="static/assets/art_work/bird_land.png" style="width: 50%; height:50%;" alt="">
+          <br style = “line-height:1;”><br>
+          <p class="thaisa">เมื่อทางร้านปริ้นงานของคุณเสร็จ ก็สามารถไปรับงานของคุณได้เลย</p>
+        </div>
+
+
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

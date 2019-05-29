@@ -1,0 +1,5 @@
+{% block body %}{% endblock %}
+
+---
+The Homing Pigoen
+{{config.HOSTNAME}}
