@@ -1,6 +1,6 @@
 APScheduler==3.5.3
 arrow==0.8.0
-bleach==1.4.3
+bleach==3.1.4
 blinker==1.4
 boto3==1.3.0
 botocore==1.4.93
