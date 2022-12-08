@@ -4,7 +4,7 @@ bleach==1.4.3
 blinker==1.4
 boto3==1.3.0
 botocore==1.4.93
-certifi==2018.11.29
+certifi==2022.12.7
 cffi==1.11.5
 chardet==3.0.4
 Click==7.0
